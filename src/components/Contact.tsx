@@ -1,35 +1,41 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
 import SpecularButton from "./SpecularButton";
 
 const MARQUEE_TEXT = "ОПТОВАЯ ПРОДАЖА • ";
 const SOCIAL_LINKS = [
-  { id: "footer-whatsapp", label: "WhatsApp", href: "https://wa.me/" },
-  { id: "footer-telegram", label: "Telegram", href: "https://t.me/" },
-  { id: "footer-max", label: "Max", href: "#" },
-  { id: "footer-phone", label: "Позвонить", href: "tel:" },
+  { id: "link-wa", label: "WhatsApp", href: "https://wa.me/" },
+  { id: "link-tg", label: "Telegram", href: "https://t.me/" },
+  { id: "link-max", label: "Max", href: "#" },
+  { id: "link-call", label: "Позвонить", href: "tel:+79000000000" },
 ];
 
 export default function Contact() {
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const marqueeRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // GSAP Marquee animation
+  // Marquee scroll animation
   useEffect(() => {
+    const el = marqueeRef.current;
+    if (!el) return;
+
     const ctx = gsap.context(() => {
-      if (!marqueeRef.current) return;
-      gsap.to(marqueeRef.current, {
+      gsap.to(el, {
         xPercent: -50,
-        duration: 40,
         ease: "none",
+        duration: 15,
         repeat: -1,
       });
     });
+
     return () => ctx.revert();
   }, []);
 
-  // Ensure mobile video autoplay
+  // Video playback
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -39,8 +45,11 @@ export default function Contact() {
   }, []);
 
   return (
-    <footer id="contact" className="bg-bg pt-16 md:pt-20 pb-8 md:pb-12 overflow-hidden relative">
-      {/* Background Video — flipped vertically */}
+    <section
+      id="contact"
+      className="relative bg-bg py-24 md:py-36 overflow-hidden transition-colors duration-500"
+    >
+      {/* Background Video */}
       <div className="absolute inset-0 overflow-hidden z-0">
         <video
           ref={videoRef}
@@ -49,57 +58,73 @@ export default function Contact() {
           muted
           loop
           playsInline
-          className="absolute top-1/2 left-1/2 min-w-full min-h-full object-cover -translate-x-1/2 -translate-y-1/2"
-          style={{ transform: "translate(-50%, -50%) scaleY(-1)" }}
+          className={`w-full h-full object-cover object-center transition-opacity duration-500 ${
+            isLight ? "opacity-30 mix-blend-multiply" : "opacity-40"
+          }`}
         />
-        {/* Heavier overlay */}
-        <div className="absolute inset-0 bg-black/60" />
-        {/* Top fade */}
-        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-bg to-transparent" />
+        <div
+          className={`absolute inset-0 transition-colors duration-500 ${
+            isLight
+              ? "bg-gradient-to-b from-purple-50/80 via-white/85 to-purple-100/90 backdrop-blur-[1px]"
+              : "bg-black/75"
+          }`}
+        />
       </div>
 
-      <div className="relative z-10">
-        {/* GSAP Marquee */}
-        <div className="overflow-hidden mb-16 md:mb-24 py-4">
+      {/* Top transition line */}
+      <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-bg to-transparent z-10" />
+
+      {/* Content */}
+      <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
+        {/* Marquee ticker */}
+        <div className="overflow-hidden mb-16 select-none py-2">
           <div
             ref={marqueeRef}
-            className="flex whitespace-nowrap"
-            style={{ width: "max-content" }}
+            className={`whitespace-nowrap inline-block font-display italic text-6xl sm:text-8xl md:text-9xl font-bold tracking-tight transition-colors duration-500 ${
+              isLight ? "text-purple-900/30" : "text-text-primary/45"
+            }`}
           >
-            {Array.from({ length: 20 }).map((_, i) => (
-              <span
-                key={i}
-                className="text-3xl md:text-5xl lg:text-6xl font-display italic text-text-primary/45 tracking-tight pr-4"
-              >
+            {Array.from({ length: 12 }).map((_, i) => (
+              <span key={i} className="inline-block mr-6">
                 {MARQUEE_TEXT}
               </span>
             ))}
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
+        {/* CTA Container */}
+        <div className="max-w-3xl mx-auto text-center mb-20">
           <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            <p className="text-xs text-muted uppercase tracking-[0.3em] mb-6">
+            <span
+              className={`text-xs uppercase tracking-[0.3em] font-semibold block mb-4 ${
+                isLight ? "text-purple-700" : "text-muted"
+              }`}
+            >
               Сотрудничество
-            </p>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-display italic text-text-primary leading-tight mb-10">
+            </span>
+            <h2
+              className={`text-4xl md:text-6xl lg:text-7xl font-display italic leading-tight mb-10 ${
+                isLight ? "text-slate-900" : "text-text-primary"
+              }`}
+            >
               Готовы оформить оптовый заказ?
             </h2>
+
+            {/* SpecularButton CTA */}
             <div className="flex justify-center w-full px-2 overflow-hidden">
               <SpecularButton
                 id="footer-email-cta"
                 size="md"
                 radius={9999}
-                lineColor="#89AACC"
-                baseColor="#4E85BF"
-                intensity={3.0}
+                lineColor={isLight ? "#7C3AED" : "#89AACC"}
+                baseColor={isLight ? "#C4B5FD" : "#4E85BF"}
+                textColor={isLight ? "#1E1B4B" : "#ffffff"}
+                intensity={isLight ? 2.0 : 3.0}
                 speed={1.0}
                 autoAnimate={false}
                 followMouse
@@ -116,7 +141,7 @@ export default function Contact() {
           </motion.div>
 
           {/* Footer bar */}
-          <div className="border-t border-stroke/60 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="border-t border-stroke/60 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 mt-16">
             {/* Highlighted Social links */}
             <div className="flex flex-wrap items-center justify-center gap-3">
               {SOCIAL_LINKS.map((link) => (
@@ -126,43 +151,42 @@ export default function Contact() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface/70 hover:bg-surface border border-white/10 hover:border-white/30 text-xs text-text-primary uppercase tracking-[0.12em] transition-all duration-300 shadow-md shadow-black/30 hover:scale-105"
+                  className={`group relative inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs uppercase tracking-[0.12em] transition-all duration-300 shadow-sm hover:scale-105 ${
+                    isLight
+                      ? "bg-white/90 border-slate-200 text-slate-800 hover:border-purple-400 shadow-slate-200/50"
+                      : "bg-surface/70 border-white/10 text-text-primary hover:border-white/30 shadow-black/30"
+                  }`}
                 >
-                  <span
-                    className="absolute inset-[-1px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                    style={{
-                      background: "linear-gradient(90deg, #89AACC 0%, #4E85BF 100%)",
-                      zIndex: 0,
-                    }}
-                  />
-                  <span className="relative z-10 flex items-center gap-1.5">
-                    {link.label === "WhatsApp" && <span className="text-emerald-400 text-[10px]">●</span>}
-                    {link.label === "Telegram" && <span className="text-sky-400 text-[10px]">●</span>}
-                    {link.label === "Max" && <span className="text-purple-400 text-[10px]">●</span>}
-                    {link.label === "Позвонить" && <span className="text-amber-400 text-[10px]">●</span>}
-                    <span className="font-medium">{link.label}</span>
-                    <span className="text-[10px] text-muted group-hover:text-white transition-colors">↗</span>
+                  <span className="relative z-10 flex items-center gap-1.5 font-medium">
+                    {link.label === "WhatsApp" && <span className="text-emerald-500 text-[10px]">●</span>}
+                    {link.label === "Telegram" && <span className="text-sky-500 text-[10px]">●</span>}
+                    {link.label === "Max" && <span className="text-purple-500 text-[10px]">●</span>}
+                    {link.label === "Позвонить" && <span className="text-amber-500 text-[10px]">●</span>}
+                    <span>{link.label}</span>
+                    <span className="text-[10px] text-muted group-hover:text-purple-600 dark:group-hover:text-white transition-colors">↗</span>
                   </span>
                 </a>
               ))}
             </div>
 
-            {/* Availability */}
+            {/* Status dot */}
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span className="text-xs text-muted">Принимаем заказы 2026</span>
+              <span className={`text-xs font-medium ${isLight ? "text-slate-700" : "text-muted"}`}>
+                Принимаем заказы 2026
+              </span>
             </div>
 
             {/* Copyright */}
-            <p className="text-xs text-muted">
+            <span className={`text-xs font-medium ${isLight ? "text-slate-500" : "text-muted"}`}>
               © 2026 Корона и Карусель
-            </p>
+            </span>
           </div>
         </div>
       </div>
-    </footer>
+    </section>
   );
 }
