@@ -80,7 +80,7 @@ export default function Hero({ isReady = true }: HeroProps) {
       {/* Background Video — 1708x1212 Ultra HD Original Mux Video */}
       <video
         ref={videoRef}
-        src="/video/hero.mp4"
+        src="video/hero.mp4"
         autoPlay
         muted
         loop

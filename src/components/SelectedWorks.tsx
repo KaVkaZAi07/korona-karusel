@@ -7,7 +7,7 @@ const features = [
     category: "Выгода для розницы",
     description:
       "Прямые фабричные цены без посредников позволят вам делать высокую наценку и получать максимальную чистую прибыль с каждого короба.",
-    image: "/images/card_margin_b2b.jpg",
+    image: "images/card_margin_b2b.jpg",
     span: "col-span-12 md:col-span-7",
     aspect: "aspect-[16/10]",
     badge: "Доходность",
@@ -18,7 +18,7 @@ const features = [
     category: "Ассортимент",
     description:
       "Формируем короба только из ходовых размеров с 16 по 36. Никаких «зависающих» остатков на вашем складе.",
-    image: "/images/card_sizes_b2b.jpg",
+    image: "images/card_sizes_b2b.jpg",
     span: "col-span-12 md:col-span-5",
     aspect: "aspect-[4/3]",
     badge: "Ростовки",
@@ -29,7 +29,7 @@ const features = [
     category: "Логистика по РФ",
     description:
       "Ваш магазин не потеряет покупателей в сезон. Отправка любой транспортной компанией в день поступления оплаты.",
-    image: "/images/card_shipping_b2b.jpg",
+    image: "images/card_shipping_b2b.jpg",
     span: "col-span-12 md:col-span-5",
     aspect: "aspect-[4/3]",
     badge: "Скорость",
@@ -40,7 +40,7 @@ const features = [
     category: "Гарантия и сервис",
     description:
       "Строгий фабричный контроль каждой пары. В случае выявления любого брака — оперативная замена или возврат по вашей первой обратной связи.",
-    image: "/images/card_quality_b2b.jpg",
+    image: "images/card_quality_b2b.jpg",
     span: "col-span-12 md:col-span-7",
     aspect: "aspect-[16/10]",
     badge: "Надежность",

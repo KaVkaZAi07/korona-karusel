@@ -44,7 +44,7 @@ export default function Contact() {
       <div className="absolute inset-0 overflow-hidden z-0">
         <video
           ref={videoRef}
-          src="/video/hero.mp4"
+          src="video/hero.mp4"
           autoPlay
           muted
           loop

@@ -27,7 +27,7 @@ const stories: StoryCard[] = [
     quote: "«Обувь раскупают за 2 недели. Клиенты в восторге!»",
     fullReview:
       "Сотрудничаем с «Корона и Карусель» уже второй год. Качество натуральной кожи и аккуратность коробок — на высоте. Ростовки продаются полностью без неликвидных остатков.",
-    image: "/images/story_store_1.jpg",
+    image: "images/story_store_1.jpg",
     rotation: -3,
     col: 0,
   },
@@ -39,7 +39,7 @@ const stories: StoryCard[] = [
     quote: "«3 года работы. Ни одного возврата или брака.»",
     fullReview:
       "Заказываем демисезонную и летнюю линейку коробами. Точная посадка по стопе, дети довольны, родители возвращаются именно за этими моделями.",
-    image: "/images/story_store_2.jpg",
+    image: "images/story_store_2.jpg",
     rotation: 2,
     col: 1,
   },
@@ -51,7 +51,7 @@ const stories: StoryCard[] = [
     quote: "«Ростовки улетают мгновенно. Кожа мягкая!»",
     fullReview:
       "Оптовые цены позволяют ставить высокую наценку и оставаться в хорошем плюсе. Отдельное спасибо за оперативность менеджеров.",
-    image: "/images/story_store_3.jpg",
+    image: "images/story_store_3.jpg",
     rotation: -2,
     col: 0,
   },
@@ -63,7 +63,7 @@ const stories: StoryCard[] = [
     quote: "«Отгружают за 24 часа. Очень выручают в пик сезона.»",
     fullReview:
       "В разгар школьного сезона привозили дополнительный ассортимент за пару дней. Удобная доставка транспортной компанией без задержек.",
-    image: "/images/story_store_4.jpg",
+    image: "images/story_store_4.jpg",
     rotation: 3,
     col: 1,
   },
@@ -75,7 +75,7 @@ const stories: StoryCard[] = [
     quote: "«Натуральные материалы и анатомическая стелька.»",
     fullReview:
       "Покупатели отмечают удобство колодки и супинатора. Для детской ноги это главное. Продавать такой товар — одно удовольствие.",
-    image: "/images/story_store_5.jpg",
+    image: "images/story_store_5.jpg",
     rotation: -1,
     col: 0,
   },
@@ -87,7 +87,7 @@ const stories: StoryCard[] = [
     quote: "«Постоянно дозаказываем новые коллекции!»",
     fullReview:
       "Очень красивый дизайн обуви, стильные цвета. Короба приходят идеального качества. Планируем расширять объем закупок на следующий сезон.",
-    image: "/images/story_store_6.jpg",
+    image: "images/story_store_6.jpg",
     rotation: 2,
     col: 1,
   },
