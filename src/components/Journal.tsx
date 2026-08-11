@@ -54,77 +54,64 @@ export default function Journal() {
 
   return (
     <section id="journal" className="bg-bg py-16 md:py-24 border-t border-stroke/40">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
-        {/* Header on Main Page */}
+      <div className="max-w-[1000px] mx-auto px-4 sm:px-6 md:px-10">
+        {/* Header (Matching User Screenshot) */}
         <motion.div
-          className="mb-12 md:mb-16"
+          className="mb-10 md:mb-14"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-px bg-stroke" />
-            <span className="text-xs text-muted uppercase tracking-[0.3em]">
-              Коллекции 2026
-            </span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-body font-light text-text-primary leading-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-body font-light text-text-primary leading-tight mb-4">
             Сезонные{" "}
             <em className="font-display italic not-italic">линейки обуви</em>
           </h2>
-          <p className="text-sm text-muted mt-3 max-w-lg">
-            Нажмите на интересующий сезон, чтобы открыть полный каталог из 6 актуальных моделей с ценами и размерами.
+          <p className="text-sm sm:text-base text-muted max-w-xl">
+            Оптовые поставки детской обуви полными ростовками с 16 по 36 размер.
           </p>
         </motion.div>
 
-        {/* 4 Main Seasonal Collection Cards on Main Page */}
-        <div className="space-y-6">
+        {/* 4 Seasonal Collection Horizontal Pill Cards (Matching User Screenshot) */}
+        <div className="space-y-4 sm:space-y-5">
           {SEASONAL_COLLECTIONS.map((col, idx) => (
             <motion.div
               key={col.id}
-              className="group relative cursor-pointer overflow-hidden rounded-3xl bg-surface border border-stroke p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-500 hover:border-purple-500/50 hover:shadow-2xl"
-              initial={{ opacity: 0, y: 30 }}
+              className="group relative cursor-pointer overflow-hidden rounded-full bg-surface/90 border border-stroke p-3.5 sm:p-5 flex items-center justify-between gap-4 sm:gap-6 transition-all duration-300 hover:border-purple-500/60 hover:scale-[1.01] hover:shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.6 }}
+              transition={{ delay: idx * 0.08, duration: 0.5 }}
               onClick={() => {
                 setActiveCollection(col);
                 setActiveSubFilter("all");
                 setSelectedSize(20);
               }}
             >
-              {/* Image Preview */}
-              <div className="relative w-full md:w-64 aspect-[16/10] md:aspect-[4/3] rounded-2xl overflow-hidden shrink-0 border border-stroke/60">
+              {/* Left Circular Image Thumbnail */}
+              <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-full overflow-hidden shrink-0 border border-stroke/60 bg-black/20">
                 <img
                   src={col.image}
                   alt={col.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <span className="absolute top-3 left-3 text-[10px] uppercase font-semibold px-3 py-1 rounded-full bg-bg/80 text-purple-600 dark:text-purple-300 backdrop-blur-md border border-white/10">
-                  {col.badge}
-                </span>
               </div>
 
-              {/* Text Info */}
-              <div className="flex-1">
-                <span className="text-xs text-muted uppercase tracking-[0.2em] block mb-1">
-                  {col.details}
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-display italic text-text-primary mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+              {/* Middle Title & Subtitle */}
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base sm:text-xl font-display italic text-text-primary truncate group-hover:text-purple-500 transition-colors mb-0.5 sm:mb-1">
                   {col.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-muted">
+                <p className="text-xs sm:text-sm text-muted truncate">
                   {col.subtitle}
                 </p>
               </div>
 
-              {/* Action Pill CTA */}
-              <div className="shrink-0 w-full md:w-auto">
-                <button className="w-full md:w-auto px-6 py-3.5 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/30 group-hover:scale-105">
-                  <span>Открыть каталог (6 моделей)</span>
-                  <span>↗</span>
-                </button>
+              {/* Right Arrow Button */}
+              <div className="shrink-0 mr-1 sm:mr-2">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-stroke flex items-center justify-center text-text-primary text-base sm:text-lg group-hover:border-purple-500 group-hover:bg-purple-600 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
+                  →
+                </div>
               </div>
             </motion.div>
           ))}
