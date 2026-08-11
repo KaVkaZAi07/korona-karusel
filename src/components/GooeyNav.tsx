@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useTheme } from "../context/ThemeContext";
+import ThemeTogglePill from "./ThemeTogglePill";
 import "./GooeyNav.css";
 
 export interface GooeyNavItem {
@@ -32,7 +32,6 @@ export default function GooeyNav({
   const navRef = useRef<HTMLUListElement>(null);
   const filterRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
-  const { theme, toggleTheme } = useTheme();
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
   const [logoHovered, setLogoHovered] = useState(false);
 
@@ -203,19 +202,6 @@ export default function GooeyNav({
             </span>
           </button>
 
-          <div className="w-px h-4 bg-stroke mx-1 opacity-30" />
-
-          {/* Theme Switcher Button */}
-          <button
-            id="theme-toggle-btn"
-            onClick={toggleTheme}
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none shrink-0 mr-1 text-xs text-text-primary bg-surface/60 border border-white/10 shadow-sm"
-            title={theme === "dark" ? "Переключить на Светлую тему (День)" : "Переключить на Тёмную тему (Ночь)"}
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? "☀️" : "🌙"}
-          </button>
-
           <ul ref={navRef}>
             {items.map((item, index) => (
               <li key={index} className={activeIndex === index ? "active" : ""}>
@@ -225,10 +211,12 @@ export default function GooeyNav({
                   onKeyDown={(e) => handleKeyDown(e, index, item.href)}
                 >
                   {item.label}
-                  {item.label === "Связаться" && <span className="ml-0.5 text-[10px] sm:text-xs">↗</span>}
                 </a>
               </li>
             ))}
+            <li className="flex items-center ml-1 sm:ml-2">
+              <ThemeTogglePill />
+            </li>
           </ul>
         </nav>
         <span className="effect filter" ref={filterRef} />

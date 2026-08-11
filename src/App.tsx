@@ -14,7 +14,6 @@ const navItems = [
   { label: "Дом", href: "#hero" },
   { label: "Каталог", href: "#journal" },
   { label: "Отзывы", href: "#stats" },
-  { label: "Связаться", href: "#contact" },
 ];
 
 export default function App() {
