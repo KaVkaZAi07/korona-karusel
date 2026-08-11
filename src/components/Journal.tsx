@@ -1,152 +1,168 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { CATALOG_PRODUCTS, type ProductModel } from "../data/catalogData";
+import ProductModal from "./ProductModal";
 
-const collections = [
-  {
-    id: "collection-winter",
-    title: "Зимняя коллекция обуви и мембранных дутиков",
-    subtitle: "Размеры: 21-26, 27-31, 31-36 • Натуральный мех и овчина",
-    image: "images/kids_winter_boots_1786224772633.jpg",
-    badge: "Зима 2026",
-    details: "от 1 короба",
-  },
-  {
-    id: "collection-spring",
-    title: "Весенняя и осенняя демисезонная обувь",
-    subtitle: "Размеры: 16-20, 21-26, 26-31 • Влагозащита и кожа",
-    image: "images/kids_spring_sneakers_1786224784565.jpg",
-    badge: "Весна/Осень",
-    details: "от 1 короба",
-  },
-  {
-    id: "collection-summer",
-    title: "Летняя коллекция сандалий и босоножек",
-    subtitle: "Размеры: 16-20, 21-26, 26-31 • Анатомическая стелька",
-    image: "images/kids_summer_sandals_1786224792253.jpg",
-    badge: "Лето 2026",
-    details: "от 1 короба",
-  },
-  {
-    id: "collection-school",
-    title: "Школьная обувь и спортивные кроссовки",
-    subtitle: "Размеры: 26-31, 31-36 • Износостойкая подошва",
-    image: "images/kids_sport_shoes_1786224824116.jpg",
-    badge: "Школа/Спорт",
-    details: "от 1 короба",
-  },
+const CATEGORY_FILTERS = [
+  { id: "all", label: "Все" },
+  { id: "girls", label: "Для девочек" },
+  { id: "boys", label: "Для мальчиков" },
+  { id: "school", label: "Школьная" },
+  { id: "sneakers", label: "Кроссовки" },
+  { id: "shoes", label: "Туфли" },
+  { id: "sandals", label: "Сандалии" },
 ];
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 1, ease: "easeOut" as const },
-  },
-};
+const ALL_SIZES = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 37];
 
 export default function Journal() {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [selectedSize, setSelectedSize] = useState<number | null>(20);
+  const [activeProduct, setActiveProduct] = useState<ProductModel | null>(null);
+  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
+
+  const toggleFavorite = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const filteredProducts = CATALOG_PRODUCTS.filter((prod) => {
+    if (activeCategory !== "all" && prod.target !== activeCategory) {
+      return false;
+    }
+    if (selectedSize !== null && !prod.sizeRange.includes(selectedSize)) {
+      return false;
+    }
+    return true;
+  });
+
   return (
     <section id="journal" className="bg-bg py-16 md:py-24">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
-        {/* Header */}
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
+        {/* Header (Photo 2 Header) */}
         <motion.div
-          className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-14 gap-6"
-          variants={sectionVariants}
-          initial="hidden"
-          whileInView="visible"
+          className="mb-8 md:mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-px bg-stroke" />
-              <span className="text-xs text-muted uppercase tracking-[0.3em]">
-                Коллекции
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-body font-light text-text-primary leading-tight">
-              Сезонные{" "}
-              <em className="font-display italic not-italic">линейки обуви</em>
-            </h2>
-            <p className="text-sm text-muted mt-3 max-w-sm">
-              Оптовые поставки детской обуви полными ростовками с 16 по 36 размер.
-            </p>
-          </div>
-
-          <a
-            id="journal-view-all"
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="group relative hidden md:inline-flex items-center gap-2 rounded-full text-sm px-6 py-3 text-muted hover:text-text-primary border border-stroke hover:border-transparent transition-all duration-300 focus:outline-none shrink-0"
-          >
-            <span
-              className="absolute inset-[-2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{
-                background: "linear-gradient(90deg, #89AACC 0%, #4E85BF 100%)",
-                zIndex: 0,
-              }}
-            />
-            <span className="relative z-10 bg-bg rounded-full px-6 py-3 -mx-6 -my-3 flex items-center gap-2">
-              Запросить каталог <span>→</span>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-8 h-px bg-stroke" />
+            <span className="text-xs text-muted uppercase tracking-[0.3em]">
+              Оптовый каталог
             </span>
-          </a>
+          </div>
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display italic text-text-primary leading-tight">
+              Каталог обуви
+            </h2>
+            <span className="text-xs sm:text-sm text-muted">
+              Выберите модель и перейдите в мессенджер ♡
+            </span>
+          </div>
         </motion.div>
 
-        {/* Collections entries */}
-        <div className="flex flex-col gap-3">
-          {collections.map((item, i) => (
-            <motion.a
-              key={item.id}
-              id={item.id}
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="group flex items-center gap-4 sm:gap-6 p-4 bg-surface/30 hover:bg-surface border border-stroke rounded-[28px] sm:rounded-full transition-all duration-300 cursor-pointer no-underline"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+        {/* Category Filters Row (Photo 2 Pill Bar) */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-4 scrollbar-none">
+          {CATEGORY_FILTERS.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-4 py-2 text-xs sm:text-sm font-medium rounded-2xl whitespace-nowrap transition-all duration-300 ${
+                activeCategory === cat.id
+                  ? "bg-purple-600 text-white shadow-md shadow-purple-600/30 scale-105"
+                  : "bg-surface text-text-primary hover:bg-purple-50 dark:hover:bg-purple-900/30 border border-stroke/60"
+              }`}
             >
-              {/* Thumbnail */}
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden shrink-0 border border-white/10">
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Size Selection Row (Photo 2 Size Pills) */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
+          {ALL_SIZES.map((sz) => (
+            <button
+              key={sz}
+              onClick={() => setSelectedSize(selectedSize === sz ? null : sz)}
+              className={`w-9 h-9 min-w-[36px] text-xs font-semibold rounded-xl transition-all duration-200 ${
+                selectedSize === sz
+                  ? "bg-purple-600 text-white shadow-md shadow-purple-600/30 scale-110"
+                  : "bg-surface text-text-primary hover:border-purple-400 border border-stroke/60"
+              }`}
+            >
+              {sz}
+            </button>
+          ))}
+        </div>
+
+        {/* 6 Product Cards Grid (Photo 2 Layout) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProducts.map((item) => (
+            <motion.div
+              key={item.id}
+              className="group relative bg-surface border border-stroke rounded-3xl p-4 sm:p-5 flex flex-col justify-between hover:shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-1"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              onClick={() => setActiveProduct(item)}
+            >
+              {/* Image box */}
+              <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-white/5 mb-4 border border-stroke/50 flex items-center justify-center p-2">
                 <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  src={item.mainImage}
+                  alt={item.name}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                 />
+
+                {/* Favorite Heart Button */}
+                <button
+                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface/80 backdrop-blur-md border border-stroke/60 flex items-center justify-center text-sm transition-transform active:scale-90"
+                  onClick={(e) => toggleFavorite(item.id, e)}
+                  aria-label="Add to favorites"
+                >
+                  <span className={favorites[item.id] ? "text-pink-500" : "text-muted"}>
+                    {favorites[item.id] ? "♥" : "♡"}
+                  </span>
+                </button>
               </div>
 
-              {/* Title & Subtitle */}
-              <div className="flex-1 min-w-0">
-                <p className="text-sm md:text-base text-text-primary font-medium truncate group-hover:text-text-primary transition-colors">
-                  {item.title}
-                </p>
-                <p className="text-xs text-muted truncate mt-0.5">
-                  {item.subtitle}
-                </p>
-              </div>
-
-              {/* Meta */}
-              <div className="hidden sm:flex items-center gap-4 shrink-0 text-xs text-muted">
-                <span className="bg-surface px-3 py-1 rounded-full border border-stroke">
-                  {item.badge}
+              {/* Title & Size Range */}
+              <div>
+                <h3 className="text-base sm:text-lg font-semibold text-text-primary mb-0.5 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                  {item.name}
+                </h3>
+                <span className="text-xs text-muted block mb-3">
+                  16–37 размеры
                 </span>
-                <span className="w-px h-4 bg-stroke" />
-                <span className="text-text-primary/80 font-medium">{item.details}</span>
+
+                {/* Price */}
+                <div className="text-lg font-bold text-text-primary mb-4">
+                  {item.price.toLocaleString()} ₽
+                </div>
               </div>
 
-              {/* Arrow */}
-              <span className="text-muted group-hover:text-text-primary transition-colors shrink-0 text-lg mr-2">
-                →
-              </span>
-            </motion.a>
+              {/* Action Button */}
+              <button
+                className="w-full py-2.5 rounded-2xl bg-bg border border-stroke text-xs sm:text-sm font-semibold text-purple-600 dark:text-purple-300 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-white transition-all duration-300"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveProduct(item);
+                }}
+              >
+                Подробнее
+              </button>
+            </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Product Details Modal (Photo 1) */}
+      <ProductModal
+        product={activeProduct}
+        onClose={() => setActiveProduct(null)}
+      />
     </section>
   );
 }

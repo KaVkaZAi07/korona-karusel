@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { ThemeProvider } from "./context/ThemeContext";
 import LoadingScreen from "./components/LoadingScreen";
 import GooeyNav from "./components/GooeyNav";
 import Hero from "./components/Hero";
@@ -20,7 +21,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <>
+    <ThemeProvider>
       <AnimatePresence>
         {isLoading && (
           <LoadingScreen key="loading" onComplete={() => setIsLoading(false)} />
@@ -52,6 +53,6 @@ export default function App() {
           <Contact />
         </main>
       </div>
-    </>
+    </ThemeProvider>
   );
 }
