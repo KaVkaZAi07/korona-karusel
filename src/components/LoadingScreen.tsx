@@ -14,22 +14,22 @@ interface LoadingScreenProps {
 
 export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [count, setCount] = useState(0);
-  const [wordIndex, setWordIndex] = useState(0);
   const [exiting, setExiting] = useState(false);
   const startTime = useRef<number | null>(null);
   const rafRef = useRef<number>(0);
-  const wordInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const completedRef = useRef(false);
 
-  useEffect(() => {
-    wordInterval.current = setInterval(() => {
-      setWordIndex((i) => (i + 1) % WORDS.length);
-    }, 700);
+  // Map current count (0-100) exactly to 4 word indices without loop or repetition
+  const wordIndex = Math.min(
+    Math.floor((count / 100) * WORDS.length),
+    WORDS.length - 1
+  );
 
+  useEffect(() => {
     const animate = (timestamp: number) => {
       if (!startTime.current) startTime.current = timestamp;
       const elapsed = timestamp - startTime.current;
-      const progress = Math.min(elapsed / 2800, 1);
+      const progress = Math.min(elapsed / 2600, 1);
       const eased =
         progress < 0.5
           ? 2 * progress * progress
@@ -55,7 +55,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
     return () => {
       cancelAnimationFrame(rafRef.current);
-      if (wordInterval.current) clearInterval(wordInterval.current);
     };
   }, [onComplete]);
 
@@ -74,7 +73,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         Корона и Карусель
       </div>
 
-      {/* Center rotating words */}
+      {/* Center rotating words synchronized 100% with count 0-100 */}
       <div className="flex-1 flex items-center justify-center px-4">
         <AnimatePresence mode="wait">
           <motion.span
@@ -83,7 +82,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
           >
             {WORDS[wordIndex]}
           </motion.span>
