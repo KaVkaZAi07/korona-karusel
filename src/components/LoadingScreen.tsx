@@ -79,7 +79,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         <AnimatePresence mode="wait">
           <motion.span
             key={wordIndex}
-            className="text-3xl sm:text-5xl md:text-7xl font-display italic text-text-primary/90 select-none text-center"
+            className="text-3xl sm:text-5xl md:text-7xl font-display italic text-text-primary select-none text-center block font-semibold"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
