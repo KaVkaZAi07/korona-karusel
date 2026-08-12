@@ -7,7 +7,7 @@ const features = [
     category: "Выгода для розницы",
     description:
       "Прямые фабричные цены без посредников позволят вам делать высокую наценку и получать максимальную чистую прибыль с каждого короба.",
-    image: "images/card_margin_b2b.jpg",
+    image: "images/shoe_sneakers_nb_1.jpg",
     span: "col-span-12 md:col-span-7",
     aspect: "aspect-[16/10]",
     badge: "Доходность",
@@ -18,7 +18,7 @@ const features = [
     category: "Ассортимент",
     description:
       "Формируем короба только из ходовых размеров с 16 по 36. Никаких «зависающих» остатков на вашем складе.",
-    image: "images/card_sizes_b2b.jpg",
+    image: "images/shoe_loafers_knit_1.jpg",
     span: "col-span-12 md:col-span-5",
     aspect: "aspect-[4/3]",
     badge: "Ростовки",
@@ -29,7 +29,7 @@ const features = [
     category: "Логистика по РФ",
     description:
       "Ваш магазин не потеряет покупателей в сезон. Отправка любой транспортной компанией в день поступления оплаты.",
-    image: "images/card_shipping_b2b.jpg",
+    image: "images/shoe_sneakers_yeezy_1.jpg",
     span: "col-span-12 md:col-span-5",
     aspect: "aspect-[4/3]",
     badge: "Скорость",
@@ -40,7 +40,7 @@ const features = [
     category: "Гарантия и сервис",
     description:
       "Строгий фабричный контроль каждой пары. В случае выявления любого брака — оперативная замена или возврат по вашей первой обратной связи.",
-    image: "images/card_quality_b2b.jpg",
+    image: "images/shoe_sneakers_nb_side.jpg",
     span: "col-span-12 md:col-span-7",
     aspect: "aspect-[16/10]",
     badge: "Надежность",
@@ -67,7 +67,7 @@ const itemVariants = {
 
 export default function SelectedWorks() {
   return (
-    <section id="works" className="bg-bg py-16 md:py-24">
+    <section id="works" className="bg-bg py-16 md:py-24 border-t border-stroke/40">
       <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
         {/* Header */}
         <motion.div
@@ -104,23 +104,26 @@ export default function SelectedWorks() {
             <motion.div
               key={item.id}
               id={item.id}
-              className={`${item.span} group relative cursor-pointer overflow-hidden rounded-3xl bg-surface border border-stroke`}
+              className={`${item.span} group relative cursor-pointer overflow-hidden rounded-3xl bg-surface border border-stroke shadow-xl`}
               variants={itemVariants}
             >
-              {/* Image container */}
-              <div className={`relative w-full ${item.aspect} overflow-hidden`}>
+              {/* Image container with dark luxury styling filter */}
+              <div className={`relative w-full ${item.aspect} overflow-hidden bg-black/40`}>
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out brightness-90 contrast-[1.12] saturate-[1.05] dark:brightness-85 dark:contrast-[1.15]"
                 />
 
-                {/* Dark gradient overlay for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent opacity-90 group-hover:opacity-85 transition-opacity duration-500" />
+                {/* Dark luxury vignette overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/50 to-black/30 opacity-90 group-hover:opacity-80 transition-opacity duration-500" />
+
+                {/* Soft ambient lighting overlay */}
+                <div className="absolute inset-0 bg-purple-900/10 mix-blend-color pointer-events-none" />
 
                 {/* Halftone texture overlay */}
                 <div
-                  className="absolute inset-0 opacity-15 pointer-events-none mix-blend-overlay"
+                  className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay"
                   style={{
                     backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)`,
                     backgroundSize: "8px 8px",
@@ -129,18 +132,18 @@ export default function SelectedWorks() {
 
                 {/* Badge top-left */}
                 <div className="absolute top-4 left-4 z-10">
-                  <span className="text-[10px] uppercase tracking-[0.2em] px-3 py-1.5 rounded-full bg-bg/80 backdrop-blur-md border border-white/10 text-muted">
+                  <span className="text-[10px] uppercase tracking-[0.2em] font-semibold px-3 py-1.5 rounded-full bg-bg/80 backdrop-blur-md border border-white/10 text-purple-300">
                     {item.badge}
                   </span>
                 </div>
               </div>
 
               {/* Content overlay */}
-              <div className="p-6 sm:p-8 flex flex-col justify-end bg-surface/50 border-t border-stroke/50">
+              <div className="p-6 sm:p-8 flex flex-col justify-end bg-surface/80 backdrop-blur-sm border-t border-stroke/50">
                 <span className="text-xs text-muted uppercase tracking-[0.2em] mb-1">
                   {item.category}
                 </span>
-                <h3 className="text-xl sm:text-2xl font-display italic text-text-primary mb-2 group-hover:text-white transition-colors">
+                <h3 className="text-xl sm:text-2xl font-display italic text-text-primary mb-2 group-hover:text-purple-400 transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-xs sm:text-sm text-muted leading-relaxed max-w-xl">
@@ -152,7 +155,7 @@ export default function SelectedWorks() {
               <div
                 className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                 style={{
-                  boxShadow: "inset 0 0 0 1.5px rgba(137, 170, 204, 0.4)",
+                  boxShadow: "inset 0 0 0 1.5px rgba(139, 92, 246, 0.4)",
                 }}
               />
             </motion.div>
