@@ -2,14 +2,12 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
-import SpecularButton from "./SpecularButton";
 
-const MARQUEE_TEXT = "ОПТОВАЯ ПРОДАЖА • ";
+const MARQUEE_TEXT = "ОПТОВАЯ ПРОДАЖА • ДЕТСКАЯ ОБУВЬ • ";
 const SOCIAL_LINKS = [
-  { id: "link-wa", label: "WhatsApp", href: "https://wa.me/" },
+  { id: "link-wa", label: "WhatsApp", href: "https://wa.me/79165372315" },
   { id: "link-tg", label: "Telegram", href: "https://t.me/" },
-  { id: "link-max", label: "Max", href: "#" },
-  { id: "link-call", label: "Позвонить", href: "tel:+79000000000" },
+  { id: "link-call", label: "8-916-537-23-15", href: "tel:+79165372315" },
 ];
 
 export default function Contact() {
@@ -103,9 +101,9 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* CTA & Footer Bar Container */}
+      {/* CTA & Authentic Business Card Banner Container */}
       <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
-        <div className="max-w-3xl mx-auto text-center mb-16">
+        <div className="max-w-4xl mx-auto text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -114,41 +112,72 @@ export default function Contact() {
           >
             <span
               className={`text-xs uppercase tracking-[0.3em] font-semibold block mb-4 ${
-                isLight ? "text-purple-700" : "text-muted"
+                isLight ? "text-purple-700" : "text-teal-400"
               }`}
             >
-              Сотрудничество
+              Корона × Карусель • Детская обувь оптом
             </span>
             <h2
-              className={`text-4xl md:text-6xl lg:text-7xl font-display italic leading-tight mb-10 ${
+              className={`text-4xl md:text-6xl lg:text-7xl font-display italic leading-tight mb-8 ${
                 isLight ? "text-slate-900" : "text-text-primary"
               }`}
             >
               Готовы оформить оптовый заказ?
             </h2>
 
-            {/* SpecularButton CTA */}
-            <div className="flex justify-center w-full px-2 overflow-hidden">
-              <SpecularButton
-                id="footer-email-cta"
-                size="md"
-                radius={9999}
-                lineColor={isLight ? "#7C3AED" : "#89AACC"}
-                baseColor={isLight ? "#C4B5FD" : "#4E85BF"}
-                textColor={isLight ? "#1E1B4B" : "#ffffff"}
-                intensity={isLight ? 2.0 : 3.0}
-                speed={1.0}
-                autoAnimate={false}
-                followMouse
-                onClick={() => {
-                  window.location.href = "mailto:opt@korona-karusel.ru";
-                }}
-              >
-                <span className="flex items-center gap-2 whitespace-nowrap text-xs sm:text-sm md:text-base font-semibold">
-                  <span>Получить оптовый прайс-лист</span>
-                  <span className="text-sm sm:text-lg">↗</span>
-                </span>
-              </SpecularButton>
+            {/* Authentic Contact Card Box (Matching Business Banner) */}
+            <div className="bg-surface/80 backdrop-blur-md border border-stroke rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto shadow-2xl text-left mb-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-stroke/60">
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-display italic text-text-primary font-bold">
+                    Абубакр
+                  </h3>
+                  <p className="text-xs sm:text-sm text-teal-400 font-semibold tracking-wide">
+                    Прямые поставки от производителя
+                  </p>
+                </div>
+                <a
+                  href="tel:+79165372315"
+                  className="px-5 py-2.5 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 font-extrabold text-sm sm:text-base shadow-lg shadow-teal-500/30 hover:scale-105 transition-all"
+                >
+                  📞 8-916-537-23-15
+                </a>
+              </div>
+
+              <div className="pt-6 space-y-3">
+                <div className="flex items-center gap-3 text-xs sm:text-sm text-text-primary">
+                  <span className="w-7 h-7 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center shrink-0">📍</span>
+                  <span><strong>ТЯК «Москва»</strong> • 11 вход • павильон 4ст-16-17-18</span>
+                </div>
+                <div className="flex items-center gap-3 text-xs sm:text-sm text-muted">
+                  <span className="w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">🚇</span>
+                  <span>м. Люблино, Тихорецкий б-р, 1</span>
+                </div>
+                <div className="flex items-center gap-3 text-xs sm:text-sm text-muted">
+                  <span className="w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">✨</span>
+                  <span className="italic">«Шагаем вместе в счастливое детство!»</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="grid grid-cols-2 gap-3 mt-6 pt-4 border-t border-stroke/40">
+                <a
+                  href="https://wa.me/79165372315"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm text-center transition-all shadow-md shadow-emerald-600/30"
+                >
+                  💬 WhatsApp
+                </a>
+                <a
+                  href="https://t.me/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3 px-4 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs sm:text-sm text-center transition-all shadow-md shadow-sky-600/30"
+                >
+                  ✈️ Telegram
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -173,8 +202,7 @@ export default function Contact() {
                 <span className="relative z-10 flex items-center gap-1.5 font-medium">
                   {link.label === "WhatsApp" && <span className="text-emerald-500 text-[10px]">●</span>}
                   {link.label === "Telegram" && <span className="text-sky-500 text-[10px]">●</span>}
-                  {link.label === "Max" && <span className="text-purple-500 text-[10px]">●</span>}
-                  {link.label === "Позвонить" && <span className="text-amber-500 text-[10px]">●</span>}
+                  {link.label.includes("8-916") && <span className="text-teal-400 text-[10px]">●</span>}
                   <span>{link.label}</span>
                   <span className="text-[10px] text-muted group-hover:text-purple-600 dark:group-hover:text-white transition-colors">↗</span>
                 </span>
@@ -189,13 +217,13 @@ export default function Contact() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             <span className={`text-xs font-medium ${isLight ? "text-slate-700" : "text-muted"}`}>
-              Принимаем заказы 2026
+              КАЧЕСТВО • КОМФОРТ • ЗАБОТА О ДЕТЯХ ♡
             </span>
           </div>
 
           {/* Copyright */}
           <span className={`text-xs font-medium ${isLight ? "text-slate-500" : "text-muted"}`}>
-            © 2026 Корона и Карусель
+            © 2026 Корона × Карусель
           </span>
         </div>
       </div>

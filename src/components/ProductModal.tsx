@@ -16,7 +16,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   const [selectedSize, setSelectedSize] = useState(20);
   const [showSizeChart, setShowSizeChart] = useState(false);
 
-  const whatsappLink = `https://wa.me/?text=${encodeURIComponent(
+  const whatsappLink = `https://wa.me/79165372315?text=${encodeURIComponent(
     `Здравствуйте! Хочу оформить оптовый заказ на модель: "${product.name}", размер ${selectedSize}, цена ${product.price} ₽.`
   )}`;
 
