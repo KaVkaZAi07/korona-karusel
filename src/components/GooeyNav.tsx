@@ -203,17 +203,41 @@ export default function GooeyNav({
           </button>
 
           <ul ref={navRef}>
-            {items.map((item, index) => (
-              <li key={index} className={activeIndex === index ? "active" : ""}>
-                <a
-                  href={item.href}
-                  onClick={(e) => handleClick(e, index, item.href)}
-                  onKeyDown={(e) => handleKeyDown(e, index, item.href)}
+            {items.map((item, index) => {
+              const isCatalog = item.label === "Каталог";
+              return (
+                <li
+                  key={index}
+                  className={`${activeIndex === index ? "active" : ""} ${
+                    isCatalog ? "catalog-accent-item" : ""
+                  }`}
                 >
-                  {item.label}
-                </a>
-              </li>
-            ))}
+                  <a
+                    href={item.href}
+                    onClick={(e) => handleClick(e, index, item.href)}
+                    onKeyDown={(e) => handleKeyDown(e, index, item.href)}
+                    className={
+                      isCatalog
+                        ? "relative inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/20 border border-teal-400/60 text-teal-300 dark:text-teal-200 font-bold shadow-md shadow-teal-500/30 hover:scale-105 transition-all"
+                        : ""
+                    }
+                  >
+                    {isCatalog && (
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-400" />
+                      </span>
+                    )}
+                    <span>{item.label}</span>
+                    {isCatalog && (
+                      <span className="text-[9px] bg-teal-400 text-slate-950 px-1.5 py-0.5 rounded-full font-extrabold uppercase tracking-tight shadow-sm">
+                        ★
+                      </span>
+                    )}
+                  </a>
+                </li>
+              );
+            })}
             <li className="flex items-center ml-1 sm:ml-2">
               <ThemeTogglePill />
             </li>
