@@ -8,25 +8,9 @@ import {
 } from "../data/catalogData";
 import ProductModal from "./ProductModal";
 
-const CATEGORY_FILTERS = [
-  { id: "all", label: "Все" },
-  { id: "girls", label: "Для девочек" },
-  { id: "boys", label: "Для мальчиков" },
-  { id: "school", label: "Школьная" },
-  { id: "sneakers", label: "Кроссовки" },
-  { id: "shoes", label: "Туфли" },
-  { id: "sandals", label: "Сандалии" },
-];
-
-const ALL_SIZES = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 37];
-
 export default function Journal() {
   // Currently opened Seasonal Category Modal (Photo 2)
   const [activeCollection, setActiveCollection] = useState<SeasonalCollection | null>(null);
-
-  // Filter states inside Photo 2 modal
-  const [activeSubFilter, setActiveSubFilter] = useState("all");
-  const [selectedSize, setSelectedSize] = useState<number | null>(20);
 
   // Currently opened Product Detail Modal (Photo 1)
   const [activeProduct, setActiveProduct] = useState<ProductModel | null>(null);
@@ -42,20 +26,10 @@ export default function Journal() {
     ? CATALOG_PRODUCTS.filter((prod) => prod.category === activeCollection.id)
     : [];
 
-  const filteredProducts = categoryProducts.filter((prod) => {
-    if (activeSubFilter !== "all" && prod.target !== activeSubFilter) {
-      return false;
-    }
-    if (selectedSize !== null && !prod.sizeRange.includes(selectedSize)) {
-      return false;
-    }
-    return true;
-  });
-
   return (
     <section id="journal" className="bg-bg py-16 md:py-24 border-t border-stroke/40">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-10">
-        {/* Header (Wider container & Turquoise Glowing Highlighted 'Каталог') */}
+        {/* Header */}
         <motion.div
           className="mb-10 md:mb-14"
           initial={{ opacity: 0, y: 30 }}
@@ -80,7 +54,7 @@ export default function Journal() {
           </p>
         </motion.div>
 
-        {/* 4 Seasonal Collection Horizontal Pill Cards (Matching User Screenshot) */}
+        {/* 4 Seasonal Collection Horizontal Pill Cards */}
         <div className="space-y-4 sm:space-y-5">
           {SEASONAL_COLLECTIONS.map((col, idx) => (
             <motion.div
@@ -90,11 +64,7 @@ export default function Journal() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.08, duration: 0.5 }}
-              onClick={() => {
-                setActiveCollection(col);
-                setActiveSubFilter("all");
-                setSelectedSize(20);
-              }}
+              onClick={() => setActiveCollection(col)}
             >
               {/* Left Circular Image Thumbnail */}
               <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-full overflow-hidden shrink-0 border border-stroke/60 bg-black/20">
@@ -126,7 +96,7 @@ export default function Journal() {
         </div>
       </div>
 
-      {/* --- SUB-CATALOG MODAL (PHOTO 2) --- */}
+      {/* --- SUB-CATALOG MODAL (CLEAN 6-CARD GRID 1-TO-1 MATCHING USER PHOTO) --- */}
       <AnimatePresence>
         {activeCollection && (
           <div
@@ -134,7 +104,7 @@ export default function Journal() {
             onClick={() => setActiveCollection(null)}
           >
             <motion.div
-              className="relative max-w-5xl w-full bg-surface border border-stroke rounded-3xl p-5 sm:p-8 shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col cursor-default"
+              className="relative max-w-2xl w-full bg-surface border border-stroke rounded-3xl p-4 sm:p-6 shadow-2xl overflow-hidden my-auto max-h-[85vh] flex flex-col cursor-default"
               initial={{ opacity: 0, scale: 0.94, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 20 }}
@@ -143,86 +113,40 @@ export default function Journal() {
             >
               {/* Close Button */}
               <button
-                className="absolute top-4 right-4 text-muted hover:text-text-primary text-xl w-9 h-9 rounded-full bg-bg/80 flex items-center justify-center border border-stroke transition-colors z-20"
+                className="absolute top-4 right-4 text-muted hover:text-text-primary text-xl w-8 h-8 rounded-full bg-bg/80 flex items-center justify-center border border-stroke transition-colors z-20"
                 onClick={() => setActiveCollection(null)}
                 aria-label="Close sub-catalog"
               >
                 ✕
               </button>
 
-              {/* Photo 2 Sub-catalog Header */}
-              <div className="mb-6 border-b border-stroke/60 pb-4">
-                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-teal-100 dark:bg-teal-900/40 text-teal-600 dark:text-teal-300 inline-block mb-2">
-                  {activeCollection.badge}
-                </span>
-                <div className="flex items-baseline gap-3 flex-wrap">
-                  <h2 className="text-2xl sm:text-4xl font-display italic text-text-primary">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-cyan-300 to-emerald-400">
-                      Каталог:
-                    </span>{" "}
-                    {activeCollection.title}
-                  </h2>
-                  <span className="text-xs sm:text-sm text-muted">
-                    Выберите модель и перейдите в мессенджер ♡
-                  </span>
-                </div>
-              </div>
+              {/* Title Header - Clean Collection Name */}
+              <h3 className="text-xl sm:text-2xl font-display italic text-text-primary mb-4 pr-10">
+                {activeCollection.title}
+              </h3>
 
-              {/* Photo 2 Filters Bar */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-3 scrollbar-none shrink-0">
-                {CATEGORY_FILTERS.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveSubFilter(cat.id)}
-                    className={`px-3.5 py-1.5 text-xs font-medium rounded-xl whitespace-nowrap transition-all ${
-                      activeSubFilter === cat.id
-                        ? "bg-purple-600 text-white shadow-md shadow-purple-600/30"
-                        : "bg-bg text-text-primary hover:bg-purple-50 dark:hover:bg-purple-900/30 border border-stroke/60"
-                    }`}
-                  >
-                    {cat.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Photo 2 Size Selector Bar */}
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-4 mb-6 scrollbar-none shrink-0">
-                {ALL_SIZES.map((sz) => (
-                  <button
-                    key={sz}
-                    onClick={() => setSelectedSize(selectedSize === sz ? null : sz)}
-                    className={`w-8 h-8 min-w-[32px] text-xs font-semibold rounded-lg transition-all ${
-                      selectedSize === sz
-                        ? "bg-purple-600 text-white shadow-md shadow-purple-600/30 scale-105"
-                        : "bg-bg text-text-primary border border-stroke/60"
-                    }`}
-                  >
-                    {sz}
-                  </button>
-                ))}
-              </div>
-
-              {/* Photo 2: 6 Product Cards Grid */}
-              <div className="overflow-y-auto pr-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {filteredProducts.map((item) => (
+              {/* 2-Column Product Cards Grid (Matching User Photo 1-to-1) */}
+              <div className="overflow-y-auto pr-1 grid grid-cols-2 gap-3.5 sm:gap-5 max-h-[72vh]">
+                {categoryProducts.map((item) => (
                   <div
                     key={item.id}
-                    className="group relative bg-bg border border-stroke rounded-2xl p-4 flex flex-col justify-between hover:shadow-xl transition-all cursor-pointer hover:-translate-y-1"
+                    className="group relative bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-stroke rounded-3xl p-3 sm:p-4 flex flex-col justify-between shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1"
                     onClick={() => setActiveProduct(item)}
                   >
-                    {/* Image */}
-                    <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-white/5 mb-3 border border-stroke/40 flex items-center justify-center p-2">
+                    {/* Image container */}
+                    <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-slate-50 dark:bg-white/5 mb-3 flex items-center justify-center p-2">
                       <img
                         src={item.mainImage}
                         alt={item.name}
                         className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                       />
+                      {/* Favorite Heart Button */}
                       <button
-                        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-surface/80 backdrop-blur-md border border-stroke/60 flex items-center justify-center text-xs"
+                        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 dark:bg-surface/80 backdrop-blur-md border border-slate-200 dark:border-stroke/60 flex items-center justify-center text-xs transition-transform active:scale-90"
                         onClick={(e) => toggleFavorite(item.id, e)}
                         aria-label="Add to favorites"
                       >
-                        <span className={favorites[item.id] ? "text-pink-500" : "text-muted"}>
+                        <span className={favorites[item.id] ? "text-pink-500" : "text-slate-400 dark:text-muted"}>
                           {favorites[item.id] ? "♥" : "♡"}
                         </span>
                       </button>
@@ -230,20 +154,20 @@ export default function Journal() {
 
                     {/* Details */}
                     <div>
-                      <h4 className="text-sm font-semibold text-text-primary mb-0.5 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                      <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-text-primary mb-0.5 line-clamp-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                         {item.name}
                       </h4>
-                      <span className="text-[11px] text-muted block mb-2">
+                      <span className="text-[10px] sm:text-xs text-slate-400 dark:text-muted block mb-1">
                         16–37 размеры
                       </span>
-                      <div className="text-base font-bold text-text-primary mb-3">
+                      <div className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-text-primary mb-3">
                         {item.price.toLocaleString()} ₽
                       </div>
                     </div>
 
-                    {/* Action Button */}
+                    {/* Action Button: Подробнее */}
                     <button
-                      className="w-full py-2 rounded-xl bg-surface border border-stroke text-xs font-semibold text-purple-600 dark:text-purple-300 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-white transition-all"
+                      className="w-full py-2 rounded-2xl bg-purple-50/80 dark:bg-purple-950/40 border border-purple-200/60 dark:border-purple-800/50 text-xs font-semibold text-purple-600 dark:text-purple-300 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-white transition-all duration-200"
                       onClick={(e) => {
                         e.stopPropagation();
                         setActiveProduct(item);
