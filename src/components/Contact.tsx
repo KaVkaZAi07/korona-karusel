@@ -27,7 +27,7 @@ export default function Contact() {
       gsap.to(el, {
         xPercent: -50,
         ease: "none",
-        duration: 15,
+        duration: 18,
         repeat: -1,
       });
     });
@@ -59,7 +59,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative bg-bg py-20 md:py-32 overflow-hidden transition-colors duration-500"
+      className="relative bg-bg py-16 md:py-24 overflow-hidden transition-colors duration-500"
     >
       {/* Background Video — Full Edge-to-Edge High Visibility */}
       <div className="absolute inset-0 overflow-hidden z-0">
@@ -87,16 +87,16 @@ export default function Contact() {
       {/* Top transition line */}
       <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-bg to-transparent z-10" />
 
-      {/* FULL SCREEN WIDTH MARQUEE TICKER (Edge-to-Edge 100% Viewport Width) */}
-      <div className="relative z-10 w-full overflow-hidden mb-16 select-none py-2">
+      {/* SLEEK, ELEGANT COMPACT MARQUEE TICKER */}
+      <div className="relative z-10 w-full overflow-hidden mb-10 select-none py-2 border-y border-stroke/30 bg-black/10 backdrop-blur-[2px]">
         <div
           ref={marqueeRef}
-          className={`whitespace-nowrap inline-block font-display italic text-6xl sm:text-8xl md:text-9xl font-bold tracking-tight transition-colors duration-500 ${
-            isLight ? "text-purple-900/40" : "text-text-primary/70"
+          className={`whitespace-nowrap inline-block font-display italic text-xl sm:text-3xl md:text-4xl font-normal tracking-[0.25em] uppercase transition-colors duration-500 ${
+            isLight ? "text-purple-900/40" : "text-text-primary/45"
           }`}
         >
-          {Array.from({ length: 12 }).map((_, i) => (
-            <span key={i} className="inline-block mr-6">
+          {Array.from({ length: 16 }).map((_, i) => (
+            <span key={i} className="inline-block mr-8">
               {MARQUEE_TEXT}
             </span>
           ))}
