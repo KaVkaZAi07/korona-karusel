@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   SEASONAL_COLLECTIONS,
@@ -16,6 +16,34 @@ export default function Journal() {
   const [activeProduct, setActiveProduct] = useState<ProductModel | null>(null);
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
+  // --- BROWSER & MOBILE BACK BUTTON / GESTURE HANDLER ---
+  useEffect(() => {
+    if (activeCollection) {
+      window.history.pushState({ modal: "collection", id: activeCollection.id }, "", `#collection-${activeCollection.id}`);
+    }
+  }, [activeCollection]);
+
+  useEffect(() => {
+    if (activeProduct) {
+      window.history.pushState({ modal: "product", id: activeProduct.id }, "", `#product-${activeProduct.id}`);
+    }
+  }, [activeProduct]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (activeProduct) {
+        // If Product modal is open, close it first and return to collection
+        setActiveProduct(null);
+      } else if (activeCollection) {
+        // If Collection modal is open, close it and return to main catalog
+        setActiveCollection(null);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [activeProduct, activeCollection]);
+
   const toggleFavorite = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -25,6 +53,20 @@ export default function Journal() {
   const categoryProducts = activeCollection
     ? CATALOG_PRODUCTS.filter((prod) => prod.category === activeCollection.id)
     : [];
+
+  const closeCollectionModal = () => {
+    setActiveCollection(null);
+    if (window.location.hash.includes("collection")) {
+      window.history.back();
+    }
+  };
+
+  const closeProductModal = () => {
+    setActiveProduct(null);
+    if (window.location.hash.includes("product")) {
+      window.history.back();
+    }
+  };
 
   return (
     <section id="journal" className="bg-bg py-16 md:py-24 border-t border-stroke/40">
@@ -101,7 +143,7 @@ export default function Journal() {
         {activeCollection && (
           <div
             className="fixed inset-0 z-[1500] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
-            onClick={() => setActiveCollection(null)}
+            onClick={closeCollectionModal}
           >
             <motion.div
               className="relative max-w-2xl w-full bg-surface border border-stroke rounded-3xl p-4 sm:p-6 shadow-2xl overflow-hidden my-auto max-h-[85vh] flex flex-col cursor-default"
@@ -111,10 +153,10 @@ export default function Journal() {
               transition={{ duration: 0.3, ease: "easeOut" }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
+              {/* Close / Back Button */}
               <button
                 className="absolute top-4 right-4 text-muted hover:text-text-primary text-xl w-8 h-8 rounded-full bg-bg/80 flex items-center justify-center border border-stroke transition-colors z-20"
-                onClick={() => setActiveCollection(null)}
+                onClick={closeCollectionModal}
                 aria-label="Close sub-catalog"
               >
                 ✕
@@ -186,7 +228,7 @@ export default function Journal() {
       {/* --- PRODUCT DETAIL MODAL (PHOTO 1) --- */}
       <ProductModal
         product={activeProduct}
-        onClose={() => setActiveProduct(null)}
+        onClose={closeProductModal}
       />
     </section>
   );
