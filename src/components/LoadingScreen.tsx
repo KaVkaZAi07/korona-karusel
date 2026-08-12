@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const WORDS = ["Design", "Create", "Inspire"];
+const WORDS = [
+  "Оптовые цены",
+  "Ростовки 16–37",
+  "Отгрузка за 24ч",
+  "Доставка по РФ",
+];
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -19,12 +24,12 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   useEffect(() => {
     wordInterval.current = setInterval(() => {
       setWordIndex((i) => (i + 1) % WORDS.length);
-    }, 900);
+    }, 700);
 
     const animate = (timestamp: number) => {
       if (!startTime.current) startTime.current = timestamp;
       const elapsed = timestamp - startTime.current;
-      const progress = Math.min(elapsed / 2700, 1);
+      const progress = Math.min(elapsed / 2800, 1);
       const eased =
         progress < 0.5
           ? 2 * progress * progress
@@ -65,16 +70,16 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       }}
     >
       {/* Top-left label */}
-      <div className="absolute top-8 left-8 text-xs text-muted uppercase tracking-[0.3em]">
-        Portfolio
+      <div className="absolute top-8 left-8 text-xs text-muted uppercase tracking-[0.3em] font-semibold">
+        Корона и Карусель
       </div>
 
       {/* Center rotating words */}
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center px-4">
         <AnimatePresence mode="wait">
           <motion.span
             key={wordIndex}
-            className="text-4xl md:text-6xl lg:text-7xl font-display italic text-text-primary/80 select-none"
+            className="text-3xl sm:text-5xl md:text-7xl font-display italic text-text-primary/90 select-none text-center"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
