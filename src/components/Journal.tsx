@@ -54,8 +54,8 @@ export default function Journal() {
 
   return (
     <section id="journal" className="bg-bg py-16 md:py-24 border-t border-stroke/40">
-      <div className="max-w-[1000px] mx-auto px-4 sm:px-6 md:px-10">
-        {/* Header (Matching User Screenshot) */}
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-10">
+        {/* Header (Wider container & Turquoise Glowing Highlighted 'Каталог') */}
         <motion.div
           className="mb-10 md:mb-14"
           initial={{ opacity: 0, y: 30 }}
@@ -63,11 +63,19 @@ export default function Journal() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-body font-light text-text-primary leading-tight mb-4">
-            Сезонные{" "}
-            <em className="font-display italic not-italic">линейки обуви</em>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-8 h-px bg-teal-400/60" />
+            <span className="text-xs text-teal-400 dark:text-teal-300 uppercase tracking-[0.3em] font-semibold">
+              Оптовый Каталог 2026
+            </span>
+          </div>
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-body font-light text-text-primary leading-tight mb-4">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-cyan-300 to-emerald-400 font-display italic font-normal drop-shadow-[0_0_25px_rgba(45,212,191,0.4)]">
+              Каталог
+            </span>{" "}
+            сезонных линеек обуви
           </h2>
-          <p className="text-sm sm:text-base text-muted max-w-xl">
+          <p className="text-sm sm:text-base text-muted max-w-2xl">
             Оптовые поставки детской обуви полными ростовками с 16 по 36 размер.
           </p>
         </motion.div>
@@ -144,11 +152,14 @@ export default function Journal() {
 
               {/* Photo 2 Sub-catalog Header */}
               <div className="mb-6 border-b border-stroke/60 pb-4">
-                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 inline-block mb-2">
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-teal-100 dark:bg-teal-900/40 text-teal-600 dark:text-teal-300 inline-block mb-2">
                   {activeCollection.badge}
                 </span>
                 <div className="flex items-baseline gap-3 flex-wrap">
                   <h2 className="text-2xl sm:text-4xl font-display italic text-text-primary">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-cyan-300 to-emerald-400">
+                      Каталог:
+                    </span>{" "}
                     {activeCollection.title}
                   </h2>
                   <span className="text-xs sm:text-sm text-muted">
