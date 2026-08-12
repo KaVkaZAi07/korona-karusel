@@ -29,7 +29,8 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     const animate = (timestamp: number) => {
       if (!startTime.current) startTime.current = timestamp;
       const elapsed = timestamp - startTime.current;
-      const progress = Math.min(elapsed / 2600, 1);
+      // Increased total duration to 4400ms (~1.1 seconds per word) for smooth, elegant transitions
+      const progress = Math.min(elapsed / 4400, 1);
       const eased =
         progress < 0.5
           ? 2 * progress * progress
@@ -45,8 +46,8 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
           completedRef.current = true;
           setTimeout(() => {
             setExiting(true);
-            setTimeout(() => onComplete(), 500);
-          }, 300);
+            setTimeout(() => onComplete(), 600);
+          }, 400);
         }
       }
     };
@@ -62,7 +63,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     <div
       className="fixed inset-0 z-[9999] bg-bg flex flex-col"
       style={{
-        transition: "opacity 0.5s ease, transform 0.5s ease",
+        transition: "opacity 0.6s ease, transform 0.6s ease",
         opacity: exiting ? 0 : 1,
         transform: exiting ? "translateY(-20px)" : "translateY(0)",
         pointerEvents: exiting ? "none" : "auto",
@@ -73,16 +74,16 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         Корона и Карусель
       </div>
 
-      {/* Center rotating words synchronized 100% with count 0-100 */}
+      {/* Center rotating words synchronized smoothly with count 0-100 */}
       <div className="flex-1 flex items-center justify-center px-4">
         <AnimatePresence mode="wait">
           <motion.span
             key={wordIndex}
             className="text-3xl sm:text-5xl md:text-7xl font-display italic text-text-primary select-none text-center block font-semibold"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -20, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -14, filter: "blur(6px)" }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
             {WORDS[wordIndex]}
           </motion.span>
@@ -99,7 +100,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       {/* Bottom progress bar */}
       <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-stroke/50">
         <div
-          className="h-full accent-gradient origin-left"
+          className="h-full accent-gradient origin-left transition-transform duration-100 ease-out"
           style={{
             transform: `scaleX(${count / 100})`,
             boxShadow: "0 0 8px rgba(137, 170, 204, 0.35)",
