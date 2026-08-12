@@ -9,11 +9,11 @@
 .gooey-nav-container {
   position: relative;
   border-radius: 9999px;
-  padding: 3px 4px;
-  background: rgba(20, 20, 22, 0.85);
+  padding: 4px 8px;
+  background: rgba(20, 20, 22, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 

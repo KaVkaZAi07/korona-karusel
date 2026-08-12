@@ -9,7 +9,7 @@ export default function ThemeTogglePill() {
     <button
       id="theme-toggle-3d-pill"
       onClick={toggleTheme}
-      className={`group relative flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full border transition-all duration-500 focus:outline-none cursor-pointer select-none shadow-lg ${
+      className={`group relative flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-all duration-500 focus:outline-none cursor-pointer select-none shadow-sm ${
         isDark
           ? "bg-indigo-950/80 border-indigo-500/40 text-indigo-200 shadow-indigo-950/50 hover:border-indigo-400"
           : "bg-amber-100/90 border-amber-400/50 text-amber-900 shadow-amber-200/50 hover:border-amber-500"
@@ -31,18 +31,18 @@ export default function ThemeTogglePill() {
 
       {/* 3D Animated Sliding Orb Capsule */}
       <div
-        className={`relative w-8 h-4 sm:w-10 sm:h-5 rounded-full p-0.5 transition-colors duration-500 flex items-center ${
+        className={`relative w-7 h-3.5 sm:w-8 sm:h-4 rounded-full p-0.5 transition-colors duration-500 flex items-center ${
           isDark ? "bg-indigo-900/90 border border-indigo-400/30" : "bg-amber-200/90 border border-amber-400/60"
         }`}
       >
         <motion.div
-          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center text-[8px] sm:text-[10px] shadow-md transition-shadow duration-300 ${
+          className={`w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full flex items-center justify-center text-[7px] sm:text-[8px] shadow-md transition-shadow duration-300 ${
             isDark
               ? "bg-gradient-to-tr from-indigo-400 to-purple-300 text-indigo-950 shadow-indigo-500/50"
               : "bg-gradient-to-tr from-amber-400 to-yellow-200 text-amber-950 shadow-amber-500/50"
           }`}
           animate={{
-            x: isDark ? 0 : 16,
+            x: isDark ? 0 : 14,
             rotate: isDark ? 0 : 360,
             scale: [1, 1.15, 1],
           }}

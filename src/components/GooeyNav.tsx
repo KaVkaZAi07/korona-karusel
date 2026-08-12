@@ -218,7 +218,7 @@ export default function GooeyNav({
                     onKeyDown={(e) => handleKeyDown(e, index, item.href)}
                     className={
                       isCatalog
-                        ? "relative inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/20 border border-teal-400/60 text-teal-300 dark:text-teal-200 font-bold shadow-md shadow-teal-500/30 hover:scale-105 transition-all"
+                        ? "relative inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-500/20 border border-teal-400/60 text-teal-300 dark:text-teal-200 font-bold shadow-md shadow-teal-500/30 hover:scale-105 transition-all"
                         : ""
                     }
                   >
